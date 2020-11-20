@@ -1,12 +1,18 @@
 <template>
   <div>
+    <Auth />
     <router-view />
   </div>
 </template>
 
 <script>
+import Auth from "./components/sing in/Auth";
+
 export default {
   name: "App",
+  components: {
+    Auth,
+  },
 };
 </script>
 
