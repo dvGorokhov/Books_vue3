@@ -16,6 +16,9 @@
 
 <script>
 export default {
+  mounted() {
+    this.getCategories();
+  },
   data() {
     return {
       categories: [
@@ -24,10 +27,16 @@ export default {
           name: "qwert",
           img: "12344",
         },
+        {
+          id: 2,
+          name: "qwwwrt",
+          img: "12344",
+        },
       ],
     };
   },
   methods: {
+    getCategories() {},
     toBooks(id) {
       this.$router.push({ name: "books", params: { category_id: id } });
     },
