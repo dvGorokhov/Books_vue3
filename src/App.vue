@@ -1,18 +1,16 @@
 <template>
   <div>
-    <Auth />
+    <router-link to="/auth">auth</router-link>
+    <br />
+    <router-link to="/reg">register</router-link>
     <router-view />
   </div>
 </template>
 
 <script>
-import Auth from "./components/sing in/Auth";
-
 export default {
   name: "App",
-  components: {
-    Auth,
-  },
+  components: {},
 };
 </script>
 
