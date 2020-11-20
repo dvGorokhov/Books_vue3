@@ -1,5 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
-import HelloWorld from "../components/HelloWorld";
+import Categories from "../components/Categories";
+import Books from "../components/Books";
+import BookInfo from "../components/BookInfo";
 import Auth from "../components/sing in/Auth";
 import Register from "../components/sing in/Register";
 
@@ -7,7 +9,17 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: HelloWorld,
+    component: Categories,
+  },
+  {
+    path: "/books/:category_id",
+    name: "books",
+    component: Books,
+  },
+  {
+    path: "/info",
+    name: "info",
+    component: BookInfo,
   },
   {
     path: "/auth",
