@@ -43,13 +43,11 @@ export default {
                   JSON.stringify(response.data.access_token)
                 );
                 store.state.role = response.data.role;
+                store.state.user = response.data.user;
                 wm.$router.push({ name: "Home" });
               } else {
                 alert("no such user");
               }
-            })
-            .catch(function () {
-              alert("no such user");
             });
         } else {
           alert("Wrong password");

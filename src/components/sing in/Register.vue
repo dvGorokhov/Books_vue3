@@ -93,6 +93,7 @@ export default {
               JSON.stringify(response.data.access_token)
             );
             store.state.role = response.data.role;
+            store.state.user = response.data.user;
             wm.$router.push({ name: "Home" });
           })
           .catch(function () {
