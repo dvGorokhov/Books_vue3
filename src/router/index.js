@@ -4,6 +4,7 @@ import Books from "../components/Books";
 import BookInfo from "../components/BookInfo";
 import Auth from "../components/sing in/Auth";
 import Register from "../components/sing in/Register";
+import AdminCategory from "../components/Admin/AdminCategory";
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: "/reg",
     name: "register",
     component: Register
+  },
+  {
+    path: "/admin/category",
+    name: "adm_cat",
+    component: AdminCategory
   }
 ];
 
