@@ -8,7 +8,7 @@
         v-bind:key="cat.id"
         @click="toBooks(cat.id)"
       >
-        <img :src="cat.img" />
+        <img :src="cat.url" />
         <span>{{ cat.name }}</span>
       </div>
     </div>
@@ -16,28 +16,28 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   mounted() {
     this.getCategories();
   },
   data() {
     return {
-      categories: [
-        {
-          id: 1,
-          name: "qwert",
-          img: "12344",
-        },
-        {
-          id: 2,
-          name: "qwwwrt",
-          img: "12344",
-        },
-      ],
+      categories: [],
     };
   },
   methods: {
-    getCategories() {},
+    getCategories() {
+      axios
+        .get("http://127.0.0.1:8000/api/auth/category")
+        .then((response) => {
+          console.log(response.data);
+          this.categories = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     toBooks(id) {
       this.$router.push({ name: "books", params: { category_id: id } });
     },
