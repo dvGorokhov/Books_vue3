@@ -1,16 +1,16 @@
 <template>
   <div>
-    <router-link to="/auth">auth</router-link>
-    <br />
-    <router-link to="/reg">register</router-link>
+    <Header />
+    <hr />
     <router-view />
   </div>
 </template>
 
 <script>
+import Header from "./components/Header";
 export default {
   name: "App",
-  components: {},
+  components: { Header },
 };
 </script>
 

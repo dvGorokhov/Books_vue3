@@ -34,6 +34,7 @@ export default {
         info: "dasdas dasnd asd asj das dajs das d",
         img: "some url",
         category: "comedy",
+        user_id: 6,
       },
     };
   },
