@@ -1,12 +1,9 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import { createStore } from "vuex";
 
-Vue.use(Vuex)
-
-const store = new Vuex.Store({
-  state: {
-    role: 'guest',
-  },
-  mutations: {
+export const store = createStore({
+  state() {
+    return {
+      role: 'guest'
+    }
   }
-})
+});
