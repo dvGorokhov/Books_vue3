@@ -5,7 +5,12 @@
         ><button class="btn btn-primary">home</button></router-link
       >
     </div>
-    <div class="col">
+    <div class="col" v-if="isAdmin">
+      <router-link to="/admin/category"
+        ><button class="btn btn-primary">edit cat</button></router-link
+      >
+    </div>
+    <div class="col" v-if="isAuth">
       <router-link to="/auth">sing in</router-link>
       <br />
       <router-link to="/reg">register</router-link>
@@ -14,6 +19,7 @@
 </template>
 
 <script>
+import { store } from "../store";
 export default {
   data() {
     return {
@@ -32,6 +38,19 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    rewq() {
+      console.log(store);
+    },
+  },
+  computed: {
+    isAuth() {
+      return !store.state.role == "guest";
+    },
+    isAdmin() {
+      return store.state.role == "admin";
+    },
   },
 };
 </script>

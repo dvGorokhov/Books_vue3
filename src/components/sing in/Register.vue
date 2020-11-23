@@ -8,6 +8,13 @@
             type="text"
             v-model="login"
             class="form-control"
+            placeholder="введите email"
+          />
+          <br />
+          <input
+            type="text"
+            v-model="name"
+            class="form-control"
             placeholder="введите имя"
           />
           <br />
@@ -37,17 +44,17 @@
         </div>
       </div>
     </div>
-    <ul v-if="err.length > 0">
-      <li v-for="(error, index) in err" v-bind:key="index">>{{ error }}</li>
-    </ul>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import { store } from "../../store";
 export default {
   computed: {
     isDisabled() {
       return (
+        this.name.length > 2 &&
         this.login.length > 2 &&
         this.pass.length > 5 &&
         this.pass2.length > 5 &&
@@ -57,7 +64,7 @@ export default {
   },
   data() {
     return {
-      err: [],
+      name: "",
       login: "",
       pass: "",
       pass2: "",
@@ -65,7 +72,33 @@ export default {
   },
   methods: {
     register() {
-      console.log(true);
+      let wm = this;
+      if (
+        this.login.length > 2 &&
+        this.name.length > 2 &&
+        this.pass.length > 5 &&
+        this.pass2.length > 5 &&
+        this.pass === this.pass2
+      ) {
+        axios
+          .post("http://127.0.0.1:8000/api/auth/reg", {
+            name: this.name,
+            email: this.login,
+            password: this.pass,
+            password2: this.pass2,
+          })
+          .then(function (response) {
+            localStorage.setItem(
+              "token",
+              JSON.stringify(response.data.access_token)
+            );
+            store.state.role = response.data.role;
+            wm.$router.push({ name: "Home" });
+          })
+          .catch(function () {
+            alert("wrong data");
+          });
+      }
     },
   },
 };
