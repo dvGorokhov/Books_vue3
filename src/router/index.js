@@ -35,7 +35,8 @@ const routes = [
   {
     path: "/admin/category",
     name: "adm_cat",
-    component: AdminCategory
+    component: AdminCategory,
+    props: true
   }
 ];
 

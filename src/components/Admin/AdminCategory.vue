@@ -1,6 +1,8 @@
 <template>
   <div>
-    <button class="btn btn-success my-2">add category</button>
+    <button class="btn btn-success my-2" @click="showModal">
+      add category
+    </button>
     <table class="table">
       <thead>
         <tr>
@@ -18,25 +20,52 @@
           <td>{{ cat.name }}</td>
           <td>{{ cat.url }}</td>
           <td>{{ cat.info }}</td>
-          <td><button class="btn btn-warning">1</button></td>
+          <td>
+            <button class="btn btn-warning" @click="showModal(index)">1</button>
+          </td>
           <td>
             <button class="btn btn-danger" @click="delete_cat(index)">2</button>
           </td>
         </tr>
       </tbody>
     </table>
+    <CategoryModal :show="show_modal" @hide="closeModal">
+      <template v-slot:content>
+        <span>add name</span>
+        <input v-model="selected.name" type="text" />
+        <span>add url</span>
+        <input v-model="selected.url" type="text" />
+        <span>add info</span>
+        <input v-model="selected.info" type="text" />
+        <div>
+          <button @click="addCategory">add</button>
+        </div>
+      </template>
+    </CategoryModal>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import CategoryModal from "../modal/CategoryModal";
 export default {
   mounted() {
     this.getCategories();
   },
+  components: {
+    CategoryModal,
+  },
   data() {
     return {
       categories: [],
+      show_modal: false,
+      selected: {
+        index: null,
+        id: null,
+        name: "",
+        url: "",
+        info: "",
+      },
     };
   },
   methods: {
@@ -49,7 +78,7 @@ export default {
           },
         })
         .then((response) => {
-          console.log(response.data);
+          this.closeModal();
           this.categories = response.data;
         })
         .catch(function (error) {
@@ -75,6 +104,43 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
+    },
+    addCategory() {
+      axios
+        .post("http://127.0.0.1:8000/api/auth/category", this.selected, {
+          headers: {
+            Authorization:
+              "Bearer " + JSON.parse(localStorage.getItem("token")),
+          },
+        })
+        .then(() => {
+          this.getCategories();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    showModal(index = null) {
+      if (index > -1) {
+        this.selected = {
+          index: index,
+          id: this.categories[index].id,
+          name: this.categories[index].name,
+          info: this.categories[index].info,
+          url: this.categories[index].url,
+        };
+      }
+      this.show_modal = true;
+    },
+    closeModal() {
+      this.show_modal = false;
+      this.selected = {
+        index: null,
+        id: null,
+        name: "",
+        url: "",
+        info: "",
+      };
     },
   },
 };
