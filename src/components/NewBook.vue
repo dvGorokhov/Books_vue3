@@ -13,6 +13,7 @@
           type="file"
           id="file"
           ref="file"
+          accept="image/jpeg,image/png,image/jpg"
           v-on:change="handleFileUpload()"
         />
       </label>
@@ -32,9 +33,9 @@ export default {
   },
   methods: {
     handleFileUpload() {
-      if (this.$refs.file.files[0].size > 100) {
+      if (this.$refs.file.files[0].size > 500 * 1000) {
         this.$refs.file.value = "";
-        alert("rtfg");
+        alert("max size file 500kb");
       } else {
         this.file = this.$refs.file.files[0];
       }
