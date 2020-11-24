@@ -20,7 +20,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import axios from "axios";
 export default {
@@ -33,7 +32,12 @@ export default {
   },
   methods: {
     handleFileUpload() {
-      this.file = this.$refs.file.files[0];
+      if (this.$refs.file.files[0].size > 100) {
+        this.$refs.file.value = "";
+        alert("rtfg");
+      } else {
+        this.file = this.$refs.file.files[0];
+      }
     },
     submitFile() {
       let formData = new FormData();
