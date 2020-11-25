@@ -35,7 +35,7 @@
       <template v-slot:content>
         <span>new name</span>
         <input v-model="selected.name" type="text" />
-        <span>new url</span>
+        <span>new img</span>
         <input
           type="file"
           id="file"

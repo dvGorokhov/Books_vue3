@@ -31,7 +31,6 @@ export default {
       axios
         .get("http://127.0.0.1:8000/api/auth/category")
         .then((response) => {
-          console.log(response.data);
           this.categories = response.data;
         })
         .catch(function (error) {
