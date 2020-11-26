@@ -119,6 +119,33 @@ export default {
       }
     },
     submitFile() {
+      if (this.category == "") {
+        alert("выберите категорию");
+        return;
+      }
+      if (this.name && this.name.length < 2) {
+        alert("введите название книги");
+        return;
+      }
+      if (this.author && this.author.length < 2) {
+        alert("введите имя автора");
+        return;
+      }
+      if (this.info && this.info.length > 2000) {
+        alert("введите информацию о книге");
+        return;
+      }
+      if (
+        (this.year.length !== 4 || this.year.length !== 0) &&
+        this.year > new Date().getFullYear() + 1
+      ) {
+        alert("введите год издания или оставьте поле пустым ");
+        return;
+      }
+      if (this.file == "") {
+        alert("вставьте изображение");
+        return;
+      }
       let wm = this;
       let formData = new FormData();
       formData.append("img", this.file);
@@ -137,9 +164,9 @@ export default {
         })
         .then(function () {
           console.log("SUCCESS!!");
+          wm.$router.push({ name: "Home" });
         })
         .catch(function () {
-          wm.$router.push({ name: "Home" });
           console.log("FAILURE!!");
         });
     },
@@ -163,6 +190,5 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 </style>
