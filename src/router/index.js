@@ -7,7 +7,15 @@ import Auth from "../components/sing in/Auth";
 import Register from "../components/sing in/Register";
 import AdminCategory from "../components/Admin/AdminCategory";
 
+import Test from "../components/Test";
+
+
 const routes = [
+  {
+    path: "/test",
+    name: "test",
+    component: Test,
+  },
   {
     path: "/",
     name: "Home",

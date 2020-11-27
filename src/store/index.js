@@ -1,6 +1,10 @@
 import { createStore } from "vuex";
+import test from './modules/test'
 
-export const store = createStore({
+export default createStore({
+  modules: {
+    test
+  },
   state() {
     return {
       role: 'guest',
