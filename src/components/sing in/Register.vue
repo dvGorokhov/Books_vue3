@@ -48,8 +48,6 @@
 </template>
 
 <script>
-import axios from "axios";
-import store from "../../store";
 export default {
   computed: {
     isDisabled() {
@@ -72,7 +70,12 @@ export default {
   },
   methods: {
     register() {
-      let wm = this;
+      let data = {
+        name: this.name,
+        email: this.login,
+        password: this.pass,
+        password2: this.pass2,
+      };
       if (
         this.login.length > 2 &&
         this.name.length > 2 &&
@@ -80,22 +83,13 @@ export default {
         this.pass2.length > 5 &&
         this.pass === this.pass2
       ) {
-        axios
-          .post("http://127.0.0.1:8000/api/auth/reg", {
-            name: this.name,
-            email: this.login,
-            password: this.pass,
-            password2: this.pass2,
-          })
-          .then(function (response) {
-            localStorage.setItem("token", response.data.access_token);
-            store.state.role = response.data.role;
-            store.state.user = response.data.user;
-            wm.$router.push({ name: "Home" });
-          })
-          .catch(function () {
-            alert("wrong data");
-          });
+        this.$store
+          .dispatch("register", data)
+          .then(() => this.$router.push("/"))
+          .catch((err) => console.log(err));
+      } else {
+        alert("wrong data");
+        return;
       }
     },
   },

@@ -68,11 +68,11 @@ router.beforeEach((to, from, next) => {
   console.log('to', to);
   console.log('from', from);
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.getters.isLoggedIn && store.getters.userNow === 'admin') {
+    if (store.getters.isLoggedIn && store.getters.roleNow == 'admin') {
       next()
       return
     }
-    next('/login')
+    next('/auth')
   }
 
   next()

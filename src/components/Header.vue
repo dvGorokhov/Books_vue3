@@ -29,29 +29,21 @@
 </template>
 
 <script>
-import store from "../store";
-import axios from "axios";
 export default {
   data() {
     return {};
   },
   methods: {
-    logout() {
-      let wm = this;
-      axios
-        .post("http://127.0.0.1:8000/api/auth/logout", {})
-        .then(function () {
-          localStorage.removeItem("token");
-          store.state.role = "guest";
-          store.state.user = null;
-          wm.$router.push({ name: "auth" });
-        })
-        .catch(function (err) {
-          console.log(err);
-        });
+    logout: function () {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/auth");
+      });
     },
   },
   computed: {
+    isLoggedIn: function () {
+      return this.$store.getters.isLoggedIn;
+    },
     isAuth() {
       return this.$store.getters.roleNow !== "guest";
     },

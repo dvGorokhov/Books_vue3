@@ -11,6 +11,26 @@ export default {
     pass: "",
   },
   actions: {
+    register({ commit }, user) {
+      return new Promise((resolve, reject) => {
+        commit('auth_request')
+        axios({ url: "http://127.0.0.1:8000/api/auth/reg", data: user, method: 'POST' })
+          .then(resp => {
+            const token = resp.data.access_token
+            const user = resp.data.user
+            const role = resp.data.role
+            localStorage.setItem('token', token)
+            axios.defaults.headers.common['Authorization'] = 'Bearer' + token
+            commit('auth_success', { token, user, role })
+            resolve(resp)
+          })
+          .catch(err => {
+            commit('auth_error', err)
+            localStorage.removeItem('token')
+            reject(err)
+          })
+      })
+    },
     getUserRole({ commit }, user) {
       return new Promise((resolve, reject) => {
         commit('auth_request')
@@ -20,7 +40,7 @@ export default {
             const user = resp.data.user
             const role = resp.data.role
             localStorage.setItem('token', token)
-            axios.defaults.headers.common['Authorization'] = token
+            axios.defaults.headers.common['Authorization'] = 'Bearer' + token
             commit('auth_success', { token, user, role })
             resolve(resp)
           })
@@ -30,6 +50,17 @@ export default {
             reject(err)
           })
       })
+    },
+    logout({ commit }) {
+      axios
+        .post("http://127.0.0.1:8000/api/auth/logout")
+        .then(function () {
+          commit('logout')
+          localStorage.removeItem("token");
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
     }
   },
   mutations: {
@@ -44,6 +75,12 @@ export default {
       state.token = token
       state.user = user
       state.role = role
+    },
+    logout(state) {
+      state.status = ''
+      state.token = ''
+      state.role = 'guest'
+      state.user = {}
     },
   },
   getters: {

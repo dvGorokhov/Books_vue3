@@ -4,12 +4,11 @@ import singIn from './modules/singIn'
 
 export default createStore({
   modules: {
-    test, singIn
+    test, singIn,
   },
   state() {
     return {
-      role: 'guest',
-      user: null
+
     }
   }
 });
