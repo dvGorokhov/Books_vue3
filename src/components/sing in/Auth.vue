@@ -16,8 +16,6 @@
 </template>
 
 <script>
-import axios from "axios";
-import store from "../../store";
 export default {
   data() {
     return {
@@ -27,34 +25,20 @@ export default {
   },
   methods: {
     singIn() {
-      let wm = this;
-      if (this.login.length > 2) {
-        if (this.pass.length > 5) {
-          axios
-            .post("http://127.0.0.1:8000/api/auth/login", {
-              email: this.login,
-              password: this.pass,
-            })
-            .then(function (response) {
-              console.log(response.data);
-              if (response.data.access_token) {
-                localStorage.setItem(
-                  "token",
-                  JSON.stringify(response.data.access_token)
-                );
-                store.state.role = response.data.role;
-                store.state.user = response.data.user;
-                wm.$router.push({ name: "Home" });
-              } else {
-                alert("no such user");
-              }
-            });
-        } else {
-          alert("Wrong password");
-        }
-      } else {
+      let login = this.login;
+      let pass = this.pass;
+      if (login.length < 2) {
         alert("Wrong login");
+        return;
       }
+      if (pass.length < 5) {
+        alert("Wrong password");
+        return;
+      }
+      this.$store
+        .dispatch("getUserRole", { email: login, password: pass })
+        .then(() => this.$router.push("/"))
+        .catch((err) => console.log(err));
     },
   },
 };

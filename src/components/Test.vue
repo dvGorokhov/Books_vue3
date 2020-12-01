@@ -1,6 +1,7 @@
 <template>
   <div>
-    test categories
+    <h3>test categories</h3>
+    <br />
     <div v-for="post in myPosts" v-bind:key="post.id">
       {{ post.name }}
     </div>

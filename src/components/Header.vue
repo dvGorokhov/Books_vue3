@@ -7,7 +7,10 @@
     </div>
     <div class="col" v-if="isAdmin">
       <router-link to="/admin/category"
-        ><button class="btn btn-primary">edit cat</button></router-link
+        ><button class="btn btn-primary mx-2">edit cat</button></router-link
+      >
+      <router-link to="/new_book"
+        ><button class="btn btn-primary">new book</button></router-link
       >
     </div>
     <div class="col" v-if="!isAuth">
@@ -36,16 +39,7 @@ export default {
     logout() {
       let wm = this;
       axios
-        .post(
-          "http://127.0.0.1:8000/api/auth/logout",
-          {},
-          {
-            headers: {
-              Authorization:
-                "Bearer " + JSON.parse(localStorage.getItem("token")),
-            },
-          }
-        )
+        .post("http://127.0.0.1:8000/api/auth/logout", {})
         .then(function () {
           localStorage.removeItem("token");
           store.state.role = "guest";
@@ -59,10 +53,10 @@ export default {
   },
   computed: {
     isAuth() {
-      return store.state.role !== "guest";
+      return this.$store.getters.roleNow !== "guest";
     },
     isAdmin() {
-      return store.state.role == "admin";
+      return this.$store.getters.roleNow == "admin";
     },
   },
 };

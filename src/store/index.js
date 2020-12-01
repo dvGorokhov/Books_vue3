@@ -1,9 +1,10 @@
 import { createStore } from "vuex";
 import test from './modules/test'
+import singIn from './modules/singIn'
 
 export default createStore({
   modules: {
-    test
+    test, singIn
   },
   state() {
     return {

@@ -90,8 +90,7 @@ export default {
       axios
         .get("http://127.0.0.1:8000/api/auth/category", {
           headers: {
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token")),
+            Authorization: "Bearer " + localStorage.getItem("token"),
           },
         })
         .then((response) => {
@@ -110,8 +109,7 @@ export default {
             this.categories[index].id,
           {
             headers: {
-              Authorization:
-                "Bearer " + JSON.parse(localStorage.getItem("token")),
+              Authorization: "Bearer " + localStorage.getItem("token"),
             },
           }
         )
@@ -132,8 +130,7 @@ export default {
       axios
         .post("http://127.0.0.1:8000/api/auth/category", formData, {
           headers: {
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token")),
+            Authorization: "Bearer " + localStorage.getItem("token"),
             "Content-Type": "multipart/form-data",
           },
         })

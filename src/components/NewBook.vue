@@ -99,8 +99,7 @@ export default {
       axios
         .get("http://127.0.0.1:8000/api/auth/category", {
           headers: {
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token")),
+            Authorization: "Bearer " + localStorage.getItem("token"),
           },
         })
         .then((response) => {
@@ -157,8 +156,7 @@ export default {
       axios
         .post("http://127.0.0.1:8000/api/auth/book", formData, {
           headers: {
-            Authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("token")),
+            Authorization: "Bearer " + localStorage.getItem("token"),
             "Content-Type": "multipart/form-data",
           },
         })

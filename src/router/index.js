@@ -6,6 +6,7 @@ import NewBook from "../components/NewBook";
 import Auth from "../components/sing in/Auth";
 import Register from "../components/sing in/Register";
 import AdminCategory from "../components/Admin/AdminCategory";
+import store from "../store";
 
 import Test from "../components/Test";
 
@@ -45,6 +46,9 @@ const routes = [
     path: "/admin/category",
     name: "adm_cat",
     component: AdminCategory,
+    meta: {
+      requiresAuth: true
+    },
     props: true
   },
   {
@@ -59,5 +63,20 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+router.beforeEach((to, from, next) => {
+  console.log('to', to);
+  console.log('from', from);
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn && store.getters.userNow === 'admin') {
+      next()
+      return
+    }
+    next('/login')
+  }
+
+  next()
+  return
+})
 
 export default router;

@@ -88,10 +88,7 @@ export default {
             password2: this.pass2,
           })
           .then(function (response) {
-            localStorage.setItem(
-              "token",
-              JSON.stringify(response.data.access_token)
-            );
+            localStorage.setItem("token", response.data.access_token);
             store.state.role = response.data.role;
             store.state.user = response.data.user;
             wm.$router.push({ name: "Home" });
