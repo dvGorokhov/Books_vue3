@@ -99,10 +99,17 @@ export default {
   },
   methods: {
     getBook() {
+      let wm = this;
       axios
         .get("http://127.0.0.1:8000/api/auth/book/" + this.book_id)
         .then((response) => {
           this.book = response.data;
+          if (
+            this.$store.getters.userNow.id != this.book.user_id ||
+            this.$store.getters.roleNow != "admin"
+          ) {
+            wm.$router.push({ name: "Home" });
+          }
           this.info = this.book.info;
           this.name = this.book.name;
           this.author = this.book.author;

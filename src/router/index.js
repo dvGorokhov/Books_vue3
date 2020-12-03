@@ -50,7 +50,7 @@ const routes = [
     name: "adm_cat",
     component: AdminCategory,
     meta: {
-      requiresAuth: true
+      isAdmin: true
     },
     props: true
   },
@@ -64,6 +64,9 @@ const routes = [
     path: "/edit_book/:book_id",
     name: "edit_book",
     component: EditBook,
+    meta: {
+      requiresAuth: true
+    },
     props: true
   }
 ];
@@ -76,8 +79,15 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   console.log('to', to);
   console.log('from', from);
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some(record => record.meta.isAdmin)) {
     if (store.getters.isLoggedIn && store.getters.roleNow == 'admin') {
+      next()
+      return
+    }
+    next('/auth')
+  }
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
       next()
       return
     }
