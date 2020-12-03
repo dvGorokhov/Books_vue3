@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <p>{{ categoryInfo }}</p>
+    <p>{{ info }}</p>
     <div class="row">
       <div
         class="col"
@@ -9,32 +9,43 @@
         @click="toBookInfo(book.id)"
       >
         <img :src="book.img" />
-        <span>{{ book.name }} ({{ book.year }})</span>
+        <span>{{ book.name }}</span>
+        <span v-if="book.year">({{ book.year }})</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
+  props: {
+    category_id: {
+      type: [Number, String],
+    },
+  },
   mounted() {
-    this.getBooks();
+    this.getCategory();
   },
   data() {
     return {
-      categoryInfo: "some text",
-      books: [
-        {
-          id: 1,
-          name: "qwert",
-          year: 2020,
-          img: "12344",
-        },
-      ],
+      info: "",
+      books: [],
     };
   },
   methods: {
-    getBooks() {},
+    getCategory() {
+      axios
+        .get("http://127.0.0.1:8000/api/auth/category/" + this.category_id)
+        .then((response) => {
+          console.log("resp", response);
+          this.books = response.data.books;
+          this.info = response.data.info;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     toBookInfo(id) {
       this.$router.push({ name: "info", params: { book_id: id } });
     },

@@ -5,11 +5,11 @@
         ><button class="btn btn-primary">home</button></router-link
       >
     </div>
-    <div class="col" v-if="isAdmin">
-      <router-link to="/admin/category"
+    <div class="col">
+      <router-link v-if="isAdmin" to="/admin/category"
         ><button class="btn btn-primary mx-2">edit cat</button></router-link
       >
-      <router-link to="/new_book"
+      <router-link v-if="isAuth" to="/new_book"
         ><button class="btn btn-primary">new book</button></router-link
       >
     </div>

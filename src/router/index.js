@@ -26,6 +26,7 @@ const routes = [
     path: "/books/:category_id",
     name: "books",
     component: Books,
+    props: true
   },
   {
     path: "/info/:book_id",
