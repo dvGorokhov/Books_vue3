@@ -1,16 +1,16 @@
 <template>
   <div class="container">
     <br />
-    <span>{{ book.name }}</span>
+    <h2>{{ book.name }}</h2>
     <br />
     <div class="row">
       <div class="col">
         <img :src="book.img" />
       </div>
-      <div class="col">
+      <div class="col info">
         <ul class="text-left">
-          <li>Category: {{ book.category }}</li>
-          <li>Year: {{ book.year }}</li>
+          <li>Category: {{ book.category_name }}</li>
+          <li v-if="book.year > 0">Year: {{ book.year }}</li>
           <li>Author: {{ book.author }}</li>
           <li>Info: {{ book.info }}</li>
         </ul>
@@ -20,26 +20,33 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   mounted() {
     this.getInfo();
   },
+  props: {
+    book_id: {
+      type: [Number, String],
+    },
+  },
   data() {
     return {
-      book: {
-        id: 1,
-        name: "people",
-        author: "greg",
-        year: 2020,
-        info: "dasdas dasnd asd asj das dajs das d",
-        img: "some url",
-        category: "comedy",
-        user_id: 6,
-      },
+      book: {},
     };
   },
   methods: {
-    getInfo() {},
+    getInfo() {
+      axios
+        .get("http://127.0.0.1:8000/api/auth/book/" + this.book_id)
+        .then((response) => {
+          this.book = response.data;
+          console.log("book:", this.book);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   },
 };
 </script>
@@ -51,5 +58,9 @@ img {
 }
 span {
   display: block;
+}
+.info {
+  display: flex;
+  align-items: center;
 }
 </style>

@@ -2,15 +2,19 @@
   <div class="container">
     <p>{{ info }}</p>
     <div class="row">
-      <div
-        class="col"
-        v-for="book in books"
-        v-bind:key="book.id"
-        @click="toBookInfo(book.id)"
-      >
-        <img :src="book.img" />
+      <div class="col" v-for="book in books" v-bind:key="book.id">
+        <img @click="toBookInfo(book.id)" :src="book.img" />
         <span>{{ book.name }}</span>
         <span v-if="book.year">({{ book.year }})</span>
+        <button
+          v-if="
+            user_id === book.user_id || this.$store.getters.roleNow == 'admin'
+          "
+          class="btn-sm btn btn-warning"
+          @click="editBook(book.id)"
+        >
+          edit
+        </button>
       </div>
     </div>
   </div>
@@ -26,6 +30,16 @@ export default {
   },
   mounted() {
     this.getCategory();
+  },
+  computed: {
+    user_id() {
+      let user = this.$store.getters.userNow;
+      if (user && Object.keys(user).length != 0) {
+        return user.id;
+      }
+
+      return 0;
+    },
   },
   data() {
     return {
@@ -48,6 +62,9 @@ export default {
     },
     toBookInfo(id) {
       this.$router.push({ name: "info", params: { book_id: id } });
+    },
+    editBook(id) {
+      this.$router.push({ name: "edit_book", params: { book_id: id } });
     },
   },
 };

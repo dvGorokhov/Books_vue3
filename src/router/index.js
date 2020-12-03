@@ -3,6 +3,7 @@ import Categories from "../components/Categories";
 import Books from "../components/Books";
 import BookInfo from "../components/BookInfo";
 import NewBook from "../components/NewBook";
+import EditBook from "../components/EditBook";
 import Auth from "../components/sing in/Auth";
 import Register from "../components/sing in/Register";
 import AdminCategory from "../components/Admin/AdminCategory";
@@ -32,6 +33,7 @@ const routes = [
     path: "/info/:book_id",
     name: "info",
     component: BookInfo,
+    props: true
   },
   {
     path: "/auth",
@@ -56,6 +58,12 @@ const routes = [
     path: "/new_book",
     name: "new_book",
     component: NewBook,
+    props: true
+  },
+  {
+    path: "/edit_book/:book_id",
+    name: "edit_book",
+    component: EditBook,
     props: true
   }
 ];
