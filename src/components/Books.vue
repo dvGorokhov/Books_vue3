@@ -2,13 +2,13 @@
   <div class="container">
     <div class="d-flex">
       <button
-        @click="getSortBooks('asc')"
+        @click="getCategory(current_page, 'asc')"
         class="btn sort btn-outline-secondary"
       >
         asc
       </button>
       <button
-        @click="getSortBooks('desc')"
+        @click="getCategory(current_page, 'desc')"
         class="btn sort btn-outline-secondary"
       >
         desc
@@ -31,20 +31,27 @@
           edit
         </button>
       </div>
+      <Paginate
+        :books_in_page="books_in_page"
+        :total_books="total_books"
+        @page-changed="getCategory"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import Paginate from "./Paginate.vue";
 export default {
+  components: { Paginate },
   props: {
     category_id: {
       type: [Number, String],
     },
   },
   mounted() {
-    this.getCategory();
+    this.getCategory(this.current_page);
   },
   computed: {
     user_id() {
@@ -60,32 +67,31 @@ export default {
     return {
       info: "",
       books: [],
+      current_page: 1,
+      total_books: 0,
+      books_in_page: 3,
+      sort: "asc",
     };
   },
   methods: {
-    getCategory() {
-      axios
-        .get("http://127.0.0.1:8000/api/auth/category/" + this.category_id)
-        .then((response) => {
-          console.log("resp", response);
-          this.books = response.data.books;
-          this.info = response.data.info;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    getSortBooks(type) {
+    getCategory(pageNum, sort = this.sort) {
+      this.sort = sort;
+      console.log("page", pageNum);
       axios
         .get(
           "http://127.0.0.1:8000/api/auth/category/" +
             this.category_id +
-            "/sort/" +
-            type
+            "?page=" +
+            pageNum +
+            "&sort=" +
+            sort
         )
         .then((response) => {
-          console.log("resp", response);
-          this.books = response.data;
+          console.log("resp", response.data);
+          this.books = response.data.books.data;
+          this.info = response.data.info;
+          this.current_page = response.data.books.current_page;
+          this.total_books = response.data.books.total;
         })
         .catch(function (error) {
           console.log(error);
@@ -111,5 +117,6 @@ span {
 }
 .sort {
   display: block;
+  margin: 0 5px;
 }
 </style>

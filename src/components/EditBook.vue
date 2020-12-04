@@ -105,7 +105,8 @@ export default {
         .then((response) => {
           this.book = response.data;
           if (
-            this.$store.getters.userNow.id != this.book.user_id ||
+            (this.$store.getters.userNow.id != this.book.user_id &&
+              Object.keys(this.$store.getters.userNow).length == 0) ||
             this.$store.getters.roleNow != "admin"
           ) {
             wm.$router.push({ name: "Home" });
