@@ -13,6 +13,15 @@
       >
         desc
       </button>
+      <input
+        v-model="search"
+        class="search"
+        type="text"
+        placeholder="введите название книги"
+      />
+      <button @click="getCategory(1)" class="btn btn-sm btn-outline-secondary">
+        search
+      </button>
     </div>
     <hr />
     <h3 class="my-4">{{ info }}</h3>
@@ -71,6 +80,7 @@ export default {
       total_books: 0,
       books_in_page: 3,
       sort: "asc",
+      search: "",
     };
   },
   methods: {
@@ -84,7 +94,9 @@ export default {
             "?page=" +
             pageNum +
             "&sort=" +
-            sort
+            sort +
+            "&search=" +
+            this.search
         )
         .then((response) => {
           console.log("resp", response.data);
@@ -118,5 +130,8 @@ span {
 .sort {
   display: block;
   margin: 0 5px;
+}
+.search {
+  margin-left: auto;
 }
 </style>
